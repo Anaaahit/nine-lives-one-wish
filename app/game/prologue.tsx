@@ -4,11 +4,15 @@ import CutscenePlayer from "@/src/game/cutscene/CutscenePlayer";
 import { prologue } from "@/src/game/data/prologue";
 import { useGameStore } from "@/src/game/store";
 import { saveGame } from "@/src/game/save";
+import { useMusic } from "@/src/game/audio/music";
+import { song } from "@/src/game/assets";
 
 export default function Prologue() {
   const router = useRouter();
   const { at } = useLocalSearchParams<{ at?: string }>();
   const startAt = Math.min(Number(at ?? 0) || 0, prologue.length - 1);
+
+  useMusic(song, 0.6);
 
   const finishAndGo = useCallback(() => {
     const store = useGameStore.getState();

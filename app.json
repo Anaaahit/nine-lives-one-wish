@@ -3,7 +3,7 @@
     "name": "nine-lives-one-wish",
     "slug": "nine-lives-one-wish",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "landscape",
     "icon": "./assets/images/icon.png",
     "scheme": "ninelivesonewish",
     "userInterfaceStyle": "automatic",

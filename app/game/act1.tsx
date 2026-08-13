@@ -1,9 +1,12 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
+import { useMusic } from "@/src/game/audio/music";
+import { song } from "@/src/game/assets";
 
 export default function Act1() {
   const router = useRouter();
+  useMusic(song, 0.45);
 
   return (
     <LinearGradient colors={["#05060f", "#0a1430", "#14203c"]} style={styles.root}>

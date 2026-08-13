@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -18,14 +18,16 @@ import type { Cutscene, PanelArtId } from "./types";
 const FADE_MS = 900;
 const SHIMMER_COLORS = ["#ff2d2d", "#ffa400", "#46ff8c", "#3cc9ff", "#b45cff", "#ff5cd4", "#ffffff"];
 
-function findLastPanelArt(script: Cutscene, upto: number): PanelArtId | null {
+function findLastPanel(script: Cutscene, upto: number): PanelArt | null {
   for (let i = upto; i >= 0; i--) {
     const b = script[i];
-    if (b && b.type === "panel") return b.art;
+    if (b && b.type === "panel") return { art: b.art, image: b.image };
     if (b && b.type === "fade") return null;
   }
   return null;
 }
+
+type PanelArt = { art: PanelArtId; image?: number };
 
 type Props = {
   script: Cutscene;
@@ -46,7 +48,7 @@ export default function CutscenePlayer({
   const [overlayColor, setOverlayColor] = useState<"black" | "white" | "transparent">("transparent");
   const [shimmerActive, setShimmerActive] = useState(false);
   const [showSkip, setShowSkip] = useState(false);
-  const [artId, setArtId] = useState<PanelArtId | null>(() => findLastPanelArt(script, startAt));
+  const [panelArt, setPanelArt] = useState<PanelArt | null>(() => findLastPanel(script, startAt));
 
   const overlayOpacity = useSharedValue(0);
   const scale = useSharedValue(1);
@@ -121,7 +123,7 @@ export default function CutscenePlayer({
 
     switch (b.type) {
       case "panel": {
-        setArtId(b.art);
+        setPanelArt({ art: b.art, image: b.image });
         const hold = b.hold ?? 3200;
         if (overlayColorRef.current !== "transparent") {
           overlayColorRef.current = "transparent";
@@ -201,7 +203,13 @@ export default function CutscenePlayer({
     <View style={styles.root}>
       <View style={styles.artFrame}>
         <Animated.View style={[StyleSheet.absoluteFillObject, artStyle]}>
-          {artId ? <PlaceholderArt id={artId} /> : null}
+          {panelArt ? (
+            panelArt.image ? (
+              <Image source={panelArt.image} style={styles.panelImage} resizeMode="contain" />
+            ) : (
+              <PlaceholderArt id={panelArt.art} />
+            )
+          ) : null}
         </Animated.View>
       </View>
 
@@ -248,6 +256,9 @@ const styles = StyleSheet.create({
   artFrame: {
     ...StyleSheet.absoluteFillObject,
     overflow: "hidden",
+  },
+  panelImage: {
+    ...StyleSheet.absoluteFillObject,
   },
   sub: {
     position: "absolute",

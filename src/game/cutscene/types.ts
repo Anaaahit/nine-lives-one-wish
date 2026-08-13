@@ -11,7 +11,14 @@ export type PanelArtId =
   | "door_ajar";
 
 export type CutsceneBeat =
-  | { type: "panel"; art: PanelArtId; zoom?: "none" | "in" | "out"; hold?: number; sub?: string }
+  | {
+      type: "panel";
+      art: PanelArtId;
+      image?: number;
+      zoom?: "none" | "in" | "out";
+      hold?: number;
+      sub?: string;
+    }
   | { type: "text"; speaker?: string; lines: string[] }
   | { type: "fade"; to: "black" | "white"; duration?: number }
   | { type: "sound"; sfx: string }

@@ -4,6 +4,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useGameStore } from "@/src/game/store";
 import { loadGame, saveGame } from "@/src/game/save";
+import { useMusic } from "@/src/game/audio/music";
+import { song } from "@/src/game/assets";
 import PlaceholderArt from "@/src/game/cutscene/art/PlaceholderArt";
 
 export default function Title() {
@@ -11,6 +13,8 @@ export default function Title() {
   const newGame = useGameStore((s) => s.newGame);
   const loadState = useGameStore((s) => s.loadState);
   const [hasSave, setHasSave] = useState(false);
+
+  useMusic(song, 0.45);
 
   useEffect(() => {
     loadGame().then((data) => setHasSave(Boolean(data?.game)));

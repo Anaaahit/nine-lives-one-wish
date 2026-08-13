@@ -3,6 +3,14 @@ import { StyleSheet, View, type DimensionValue } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import type { PanelArtId } from "../types";
 
+const CAT_FUR = "#e2e4e7";
+const CAT_TAN = "#c98a4b";
+const MAN_COAT = "#c9cdd2";
+const MAN_PANTS = "#34373c";
+const MAN_SKIN = "#c9a884";
+const MAN_HAIR = "#2b2d31";
+const SHADOW = "#14161a";
+
 function Moon({
   size = 40,
   top = "8%",
@@ -91,12 +99,46 @@ function Cat({ size = 54, top, left }: { size?: number; top: DimensionValue; lef
       <View
         style={{
           position: "absolute",
+          bottom: size * 0.34,
+          left: size * 0.16,
+          width: size * 0.16,
+          height: size * 0.6,
+          borderRadius: size * 0.08,
+          backgroundColor: CAT_FUR,
+        }}
+      />
+      <View
+        style={{
+          position: "absolute",
+          bottom: size * 0.12,
+          left: size * 0.1,
+          width: size * 0.22,
+          height: size * 0.22,
+          borderRadius: size * 0.11,
+          backgroundColor: CAT_TAN,
+        }}
+      />
+      <View
+        style={{
+          position: "absolute",
           bottom: 0,
           left: 0,
           width: size * 1.2,
           height: size * 0.55,
           borderRadius: size * 0.3,
-          backgroundColor: "#0a0f1e",
+          backgroundColor: CAT_FUR,
+        }}
+      />
+      <View
+        style={{
+          position: "absolute",
+          bottom: size * 0.18,
+          left: size * 0.42,
+          width: size * 0.5,
+          height: size * 0.3,
+          borderTopLeftRadius: size * 0.22,
+          borderTopRightRadius: size * 0.1,
+          backgroundColor: CAT_TAN,
         }}
       />
       <View
@@ -107,7 +149,7 @@ function Cat({ size = 54, top, left }: { size?: number; top: DimensionValue; lef
           width: size * 0.42,
           height: size * 0.38,
           borderRadius: size * 0.2,
-          backgroundColor: "#0a0f1e",
+          backgroundColor: CAT_FUR,
         }}
       />
       <View
@@ -122,7 +164,7 @@ function Cat({ size = 54, top, left }: { size?: number; top: DimensionValue; lef
           borderLeftColor: "transparent",
           borderRightColor: "transparent",
           borderBottomWidth: size * 0.16,
-          borderBottomColor: "#0a0f1e",
+          borderBottomColor: CAT_TAN,
         }}
       />
       <View
@@ -137,18 +179,109 @@ function Cat({ size = 54, top, left }: { size?: number; top: DimensionValue; lef
           borderLeftColor: "transparent",
           borderRightColor: "transparent",
           borderBottomWidth: size * 0.16,
-          borderBottomColor: "#0a0f1e",
+          borderBottomColor: CAT_TAN,
+        }}
+      />
+    </View>
+  );
+}
+
+function Man({
+  height = 130,
+  bottom,
+  left,
+  shadow = false,
+  opacity = 1,
+}: {
+  height?: number;
+  bottom: DimensionValue;
+  left: DimensionValue;
+  shadow?: boolean;
+  opacity?: number;
+}) {
+  const s = height;
+  const coat = shadow ? SHADOW : MAN_COAT;
+  const pants = shadow ? SHADOW : MAN_PANTS;
+  const skin = shadow ? SHADOW : MAN_SKIN;
+  const hair = shadow ? SHADOW : MAN_HAIR;
+  return (
+    <View style={{ position: "absolute", bottom, left, width: s * 0.52, height: s, opacity }}>
+      <View
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: s * 0.13,
+          width: s * 0.09,
+          height: s * 0.38,
+          borderRadius: s * 0.045,
+          backgroundColor: pants,
         }}
       />
       <View
         style={{
           position: "absolute",
-          bottom: size * 0.34,
-          left: size * 0.16,
-          width: size * 0.16,
-          height: size * 0.6,
-          borderRadius: size * 0.08,
-          backgroundColor: "#0a0f1e",
+          bottom: 0,
+          left: s * 0.28,
+          width: s * 0.09,
+          height: s * 0.38,
+          borderRadius: s * 0.045,
+          backgroundColor: pants,
+        }}
+      />
+      <View
+        style={{
+          position: "absolute",
+          bottom: s * 0.34,
+          left: s * 0.09,
+          width: s * 0.32,
+          height: s * 0.42,
+          borderRadius: s * 0.06,
+          backgroundColor: coat,
+        }}
+      />
+      <View
+        style={{
+          position: "absolute",
+          bottom: s * 0.34,
+          left: 0,
+          width: s * 0.08,
+          height: s * 0.38,
+          borderRadius: s * 0.04,
+          backgroundColor: coat,
+        }}
+      />
+      <View
+        style={{
+          position: "absolute",
+          bottom: s * 0.34,
+          left: s * 0.42,
+          width: s * 0.08,
+          height: s * 0.38,
+          borderRadius: s * 0.04,
+          backgroundColor: coat,
+        }}
+      />
+      <View
+        style={{
+          position: "absolute",
+          bottom: s * 0.72,
+          left: s * 0.14,
+          width: s * 0.22,
+          height: s * 0.24,
+          borderRadius: s * 0.11,
+          backgroundColor: skin,
+        }}
+      />
+      <View
+        style={{
+          position: "absolute",
+          bottom: s * 0.84,
+          left: s * 0.12,
+          width: s * 0.26,
+          height: s * 0.1,
+          borderTopLeftRadius: s * 0.13,
+          borderTopRightRadius: s * 0.13,
+          backgroundColor: hair,
         }}
       />
     </View>
@@ -365,6 +498,7 @@ function CatWaiting() {
       <Window top={40} left={30} width={150} height={128} />
       <Glow size={180} top="38%" left="52%" />
       <Cat size={54} top="52%" left="42%" />
+      <Man height={150} bottom={2} left={8} shadow opacity={0.65} />
     </View>
   );
 }
@@ -390,6 +524,7 @@ function Feeding() {
       <View style={{ position: "absolute", bottom: "32%", left: "48%", width: 4, height: 4, borderRadius: 2, backgroundColor: "#8a6a3a" }} />
       <View style={{ position: "absolute", bottom: "31%", left: "52%", width: 4, height: 4, borderRadius: 2, backgroundColor: "#8a6a3a" }} />
       <Cat size={40} top="50%" left="26%" />
+      <Man height={120} bottom={0} left={64} opacity={0.55} />
       <Glow size={200} top="12%" left="30%" color="rgba(255, 190, 120, 0.16)" />
     </View>
   );
@@ -425,12 +560,58 @@ function Bedroom() {
         <View
           style={{
             position: "absolute",
-            bottom: "14%",
-            left: "34%",
-            width: "34%",
-            height: 18,
-            borderRadius: 30,
+            bottom: 0,
+            left: "8%",
+            width: "26%",
+            height: "58%",
             backgroundColor: "#26242f",
+          }}
+        >
+          <View
+            style={{
+              position: "absolute",
+              top: "2%",
+              left: "28%",
+              width: "46%",
+              height: 34,
+              borderRadius: 17,
+              backgroundColor: MAN_SKIN,
+            }}
+          />
+          <View
+            style={{
+              position: "absolute",
+              top: "-4%",
+              left: "20%",
+              width: "64%",
+              height: 22,
+              borderTopLeftRadius: 18,
+              borderTopRightRadius: 18,
+              backgroundColor: MAN_HAIR,
+            }}
+          />
+        </View>
+        <View
+          style={{
+            position: "absolute",
+            bottom: "16%",
+            left: "42%",
+            width: "30%",
+            height: 16,
+            borderRadius: 30,
+            backgroundColor: CAT_FUR,
+          }}
+        />
+        <View
+          style={{
+            position: "absolute",
+            bottom: "16%",
+            left: "56%",
+            width: 10,
+            height: 8,
+            borderTopLeftRadius: 5,
+            borderTopRightRadius: 5,
+            backgroundColor: CAT_TAN,
           }}
         />
       </View>
@@ -455,6 +636,8 @@ function Morning() {
           borderColor: "#e8c89a",
         }}
       />
+      <Man height={170} bottom={18} left="40%" shadow />
+      <Cat size={42} top="72%" left="34%" />
       <View
         style={{
           position: "absolute",
@@ -519,6 +702,8 @@ function Sun() {
           backgroundColor: "#fff3c4",
         }}
       />
+      <Cat size={44} top="72%" left="30%" />
+      <Man height={140} bottom={18} left="52%" shadow />
     </View>
   );
 }
@@ -600,6 +785,7 @@ function CatFloor() {
         <View style={{ position: "absolute", top: 0, left: 0, width: 6, height: "100%", backgroundColor: "rgba(255, 184, 107, 0.85)" }} />
       </View>
       <Cat size={46} top="52%" left="40%" />
+      <Man height={150} bottom={0} left="64%" shadow opacity={0.5} />
       <View
         style={{
           position: "absolute",

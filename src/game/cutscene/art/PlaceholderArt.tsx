@@ -1,4 +1,5 @@
-import { StyleSheet, View } from "react-native";
+import type { ComponentType } from "react";
+import { StyleSheet, View, type DimensionValue } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import type { PanelArtId } from "../types";
 
@@ -9,8 +10,8 @@ function Moon({
   glow = false,
 }: {
   size?: number;
-  top?: number | string;
-  left?: number | string;
+  top?: DimensionValue;
+  left?: DimensionValue;
   glow?: boolean;
 }) {
   const glowSize = size * 2.6;
@@ -49,10 +50,10 @@ function Building({
   color = "#0c1322",
   windows = [],
 }: {
-  left: number | string;
-  bottom: number | string;
-  width: number | string;
-  height: number | string;
+  left: DimensionValue;
+  bottom: DimensionValue;
+  width: DimensionValue;
+  height: DimensionValue;
   color?: string;
   windows?: number[][];
 }) {
@@ -84,7 +85,7 @@ function Building({
   );
 }
 
-function Cat({ size = 54, top, left }: { size?: number; top: number | string; left: number | string }) {
+function Cat({ size = 54, top, left }: { size?: number; top: DimensionValue; left: DimensionValue }) {
   return (
     <View style={{ position: "absolute", top, left, width: size * 1.7, height: size }}>
       <View
@@ -154,17 +155,7 @@ function Cat({ size = 54, top, left }: { size?: number; top: number | string; le
   );
 }
 
-function Window({
-  top,
-  left,
-  width,
-  height,
-}: {
-  top: number | string;
-  left: number | string;
-  width: number | string;
-  height: number | string;
-}) {
+function Window({ top, left, width, height }: { top: number; left: number; width: number; height: number }) {
   return (
     <View
       style={{
@@ -222,8 +213,8 @@ function Glow({
   color = "rgba(255, 184, 107, 0.12)",
 }: {
   size: number;
-  top: number | string;
-  left: number | string;
+  top: DimensionValue;
+  left: DimensionValue;
   color?: string;
 }) {
   return (
@@ -371,7 +362,7 @@ function CatWaiting() {
     <View style={StyleSheet.absoluteFillObject}>
       <LinearGradient colors={["#0a0c16", "#12172a"]} style={StyleSheet.absoluteFillObject} />
       <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "32%", backgroundColor: "#14101f" }} />
-      <Window top="10%" left="8%" width="42%" height="34%" />
+      <Window top={40} left={30} width={150} height={128} />
       <Glow size={180} top="38%" left="52%" />
       <Cat size={54} top="52%" left="42%" />
     </View>
@@ -408,7 +399,7 @@ function Bedroom() {
   return (
     <View style={StyleSheet.absoluteFillObject}>
       <LinearGradient colors={["#060609", "#0a0a12"]} style={StyleSheet.absoluteFillObject} />
-      <Window top="8%" left="70%" width="24%" height="30%" />
+      <Window top={40} left={300} width={100} height={118} />
       <View
         style={{
           position: "absolute",
@@ -544,7 +535,7 @@ function Letter() {
           bottom: "38%",
           left: "26%",
           width: "48%",
-          height: "28%",
+          height: "30%",
           backgroundColor: "#efe6d2",
           borderWidth: 1,
           borderColor: "#d8cdb4",
@@ -554,34 +545,37 @@ function Letter() {
           shadowRadius: 12,
           shadowOffset: { width: 0, height: 6 },
           elevation: 8,
+          overflow: "hidden",
         }}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: "52%",
-          left: "26%",
-          width: 0,
-          height: 0,
-          borderLeftWidth: "24%" as unknown as number,
-          borderRightWidth: "24%" as unknown as number,
-          borderLeftColor: "transparent",
-          borderRightColor: "transparent",
-          borderBottomWidth: 30,
-          borderBottomColor: "#f4ecd9",
-        }}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: "50%",
-          left: "47.5%",
-          width: 12,
-          height: 12,
-          borderRadius: 6,
-          backgroundColor: "#b03030",
-        }}
-      />
+      >
+        <View
+          style={{
+            position: "absolute",
+            top: -1,
+            left: "50%",
+            marginLeft: -60,
+            width: 0,
+            height: 0,
+            borderLeftWidth: 60,
+            borderRightWidth: 60,
+            borderLeftColor: "transparent",
+            borderRightColor: "transparent",
+            borderBottomWidth: 36,
+            borderBottomColor: "#f4ecd9",
+          }}
+        />
+        <View
+          style={{
+            position: "absolute",
+            top: 8,
+            left: "47%",
+            width: 12,
+            height: 12,
+            borderRadius: 6,
+            backgroundColor: "#b03030",
+          }}
+        />
+      </View>
     </View>
   );
 }
@@ -666,7 +660,7 @@ function DoorAjar() {
   );
 }
 
-const SCENES: Record<PanelArtId, () => React.JSX.Element> = {
+const SCENES: Record<PanelArtId, ComponentType> = {
   city_night: CityNight,
   apartment_entrance: ApartmentEntrance,
   cat_waiting: CatWaiting,

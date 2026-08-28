@@ -1,13 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withSequence,
-  withTiming,
-} from "react-native-reanimated";
+import { Animated, Easing, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { useGameStore } from "../store";
 import { saveGame } from "../save";
 import { playSound } from "../audio/sound";
@@ -47,13 +39,13 @@ export default function CutscenePlayer({
   const [index, setIndex] = useState(startAt);
   const [overlayColor, setOverlayColor] = useState<"black" | "white" | "transparent">("transparent");
   const [shimmerActive, setShimmerActive] = useState(false);
+  const [shimmerColorIndex, setShimmerColorIndex] = useState(0);
   const [showSkip, setShowSkip] = useState(false);
   const [panelArt, setPanelArt] = useState<PanelArt | null>(() => findLastPanel(script, startAt));
 
-  const overlayOpacity = useSharedValue(0);
-  const scale = useSharedValue(1);
-  const shimmerColor = useSharedValue("#ffffff");
-  const shimmerOpacity = useSharedValue(0);
+  const overlayOpacity = useRef(new Animated.Value(0)).current;
+  const scale = useRef(new Animated.Value(1)).current;
+  const shimmerOpacity = useRef(new Animated.Value(0)).current;
 
   const overlayColorRef = useRef<"black" | "white" | "transparent">("transparent");
   const timeouts = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -101,25 +93,13 @@ export default function CutscenePlayer({
     return () => clearTimeout(timer);
   }, [index]);
 
-  const overlayStyle = useAnimatedStyle(() => ({
-    backgroundColor: overlayColor === "transparent" ? "#000" : overlayColor,
-    opacity: overlayOpacity.value,
-  }));
-
-  const artStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
-
-  const shimmerStyle = useAnimatedStyle(() => ({
-    backgroundColor: shimmerColor.value,
-    opacity: shimmerOpacity.value,
-  }));
-
   useEffect(() => {
     const b = script[index];
     if (!b) return;
     clearTimeouts();
     setShimmerActive(false);
+    shimmerOpacity.stopAnimation();
+    shimmerOpacity.setValue(0);
 
     switch (b.type) {
       case "panel": {
@@ -128,18 +108,24 @@ export default function CutscenePlayer({
         if (overlayColorRef.current !== "transparent") {
           overlayColorRef.current = "transparent";
           setOverlayColor("transparent");
-          overlayOpacity.value = 1;
-          overlayOpacity.value = withTiming(0, { duration: FADE_MS, easing: Easing.inOut(Easing.cubic) });
+          overlayOpacity.setValue(1);
+          Animated.timing(overlayOpacity, {
+            toValue: 0,
+            duration: FADE_MS,
+            easing: Easing.inOut(Easing.cubic),
+            useNativeDriver: true,
+          }).start();
         }
         const zoom = b.zoom ?? "none";
+        scale.stopAnimation();
         if (zoom === "in") {
-          scale.value = 1;
-          scale.value = withTiming(1.18, { duration: hold, easing: Easing.inOut(Easing.cubic) });
+          scale.setValue(1);
+          Animated.timing(scale, { toValue: 1.18, duration: hold, easing: Easing.inOut(Easing.cubic), useNativeDriver: true }).start();
         } else if (zoom === "out") {
-          scale.value = 1.18;
-          scale.value = withTiming(1, { duration: hold, easing: Easing.inOut(Easing.cubic) });
+          scale.setValue(1.18);
+          Animated.timing(scale, { toValue: 1, duration: hold, easing: Easing.inOut(Easing.cubic), useNativeDriver: true }).start();
         } else {
-          scale.value = 1;
+          scale.setValue(1);
         }
         later(advance, hold);
         break;
@@ -149,10 +135,12 @@ export default function CutscenePlayer({
       case "fade": {
         overlayColorRef.current = b.to;
         setOverlayColor(b.to);
-        overlayOpacity.value = withTiming(1, {
+        Animated.timing(overlayOpacity, {
+          toValue: 1,
           duration: b.duration ?? FADE_MS,
           easing: Easing.inOut(Easing.cubic),
-        });
+          useNativeDriver: true,
+        }).start();
         later(advance, b.duration ?? FADE_MS);
         break;
       }
@@ -166,15 +154,24 @@ export default function CutscenePlayer({
       case "shimmer": {
         const dur = b.duration ?? 2600;
         const step = dur / SHIMMER_COLORS.length;
-        shimmerColor.value = withSequence(...SHIMMER_COLORS.map((c) => withTiming(c, { duration: step })));
-        shimmerOpacity.value = withRepeat(
-          withSequence(withTiming(0.45, { duration: 700 }), withTiming(0.9, { duration: 700 })),
-          -1,
-          true,
-        );
+        setShimmerColorIndex(0);
         setShimmerActive(true);
+        shimmerOpacity.setValue(1);
+        Animated.loop(
+          Animated.sequence([
+            Animated.timing(shimmerOpacity, { toValue: 0.45, duration: 700, useNativeDriver: true }),
+            Animated.timing(shimmerOpacity, { toValue: 0.9, duration: 700, useNativeDriver: true }),
+          ]),
+        ).start();
+        const colorInterval = setInterval(
+          () => setShimmerColorIndex((c) => (c + 1) % SHIMMER_COLORS.length),
+          step,
+        );
+        timeouts.current.push(colorInterval as unknown as ReturnType<typeof setTimeout>);
         later(() => {
+          clearInterval(colorInterval);
           setShimmerActive(false);
+          shimmerOpacity.stopAnimation();
           advance();
         }, dur);
         break;
@@ -192,17 +189,17 @@ export default function CutscenePlayer({
     advance,
     overlayOpacity,
     scale,
-    shimmerColor,
     shimmerOpacity,
   ]);
 
   const beat = script[index];
   const progress = Math.round(((index + 1) / script.length) * 100);
+  const shimmerColor = SHIMMER_COLORS[shimmerColorIndex] ?? "#ffffff";
 
   return (
     <View style={styles.root}>
       <View style={styles.artFrame}>
-        <Animated.View style={[StyleSheet.absoluteFillObject, artStyle]}>
+        <Animated.View style={[StyleSheet.absoluteFillObject, { transform: [{ scale }] }]}>
           {panelArt ? (
             panelArt.image ? (
               <Image source={panelArt.image} style={styles.panelImage} resizeMode="contain" />
@@ -216,10 +213,13 @@ export default function CutscenePlayer({
       {shimmerActive ? (
         <Animated.View
           pointerEvents="none"
-          style={[StyleSheet.absoluteFillObject, shimmerStyle]}
+          style={[StyleSheet.absoluteFillObject, { backgroundColor: shimmerColor, opacity: shimmerOpacity }]}
         />
       ) : null}
-      <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFillObject, overlayStyle]} />
+      <Animated.View
+        pointerEvents="none"
+        style={[StyleSheet.absoluteFillObject, { backgroundColor: overlayColor === "transparent" ? "#000" : overlayColor, opacity: overlayOpacity }]}
+      />
 
       {beat && beat.type === "panel" ? (
         <Pressable style={StyleSheet.absoluteFill} onPress={advance} />

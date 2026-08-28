@@ -1,11 +1,5 @@
-import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text } from "react-native";
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
+import { useEffect, useRef, useState } from "react";
+import { Animated, Easing, Pressable, StyleSheet, Text } from "react-native";
 
 const TICK_MS = 26;
 
@@ -21,14 +15,16 @@ export default function DialoguePanel({ speaker, lines, onDone }: Props) {
   const line = lines[lineIndex] ?? "";
   const fullyTyped = chars >= line.length;
 
-  const translateY = useSharedValue(30);
-  const opacity = useSharedValue(0);
+  const translateY = useRef(new Animated.Value(30)).current;
+  const opacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    translateY.value = 30;
-    opacity.value = 0;
-    translateY.value = withTiming(0, { duration: 320, easing: Easing.out(Easing.cubic) });
-    opacity.value = withTiming(1, { duration: 320 });
+    translateY.setValue(30);
+    opacity.setValue(0);
+    Animated.parallel([
+      Animated.timing(translateY, { toValue: 0, duration: 320, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
+      Animated.timing(opacity, { toValue: 1, duration: 320, useNativeDriver: true }),
+    ]).start();
   }, [lineIndex, opacity, translateY]);
 
   useEffect(() => {
@@ -58,14 +54,14 @@ export default function DialoguePanel({ speaker, lines, onDone }: Props) {
     }
   };
 
-  const panelStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: translateY.value }],
-    opacity: opacity.value,
-  }));
-
   return (
     <Pressable style={StyleSheet.absoluteFill} onPress={onPress}>
-      <Animated.View style={[styles.panel, panelStyle]}>
+      <Animated.View
+        style={[
+          styles.panel,
+          { transform: [{ translateY }], opacity },
+        ]}
+      >
         {speaker ? <Text style={styles.speaker}>{speaker}</Text> : null}
         <Text style={styles.line}>{line.slice(0, chars)}</Text>
         <Text style={styles.hint}>{fullyTyped && lineIndex === lines.length - 1 ? "tap to continue" : ""}</Text>

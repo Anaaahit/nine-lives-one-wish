@@ -5,39 +5,50 @@ import { useGameStore } from "../store";
 let player: ReturnType<typeof createAudioPlayer> | null = null;
 let currentSource: number | null = null;
 
+function safe(fn: () => void): void {
+  try {
+    fn();
+  } catch (e) {
+    console.warn("[music] audio unavailable", e);
+  }
+}
+
 export function playMusic(source: number, volume = 0.8): void {
   if (!useGameStore.getState().settings.sound) return;
-  if (player && currentSource === source) {
+  safe(() => {
+    if (player && currentSource === source) {
+      player.play();
+      return;
+    }
+    if (player) {
+      player.pause();
+      player.remove();
+    }
+    player = createAudioPlayer(source);
+    currentSource = source;
+    player.loop = true;
+    player.volume = volume;
     player.play();
-    return;
-  }
-  if (player) {
-    player.pause();
-    player.remove();
-    player = null;
-  }
-  player = createAudioPlayer(source);
-  currentSource = source;
-  player.loop = true;
-  player.volume = volume;
-  player.play();
+  });
 }
 
 export function pauseMusic(): void {
-  player?.pause();
+  safe(() => player?.pause());
 }
 
 export function resumeMusic(): void {
   if (!useGameStore.getState().settings.sound) return;
-  player?.play();
+  safe(() => player?.play());
 }
 
 export function stopMusic(): void {
-  if (player) {
-    player.pause();
-    player.remove();
+  safe(() => {
+    if (player) {
+      player.pause();
+      player.remove();
+    }
     player = null;
-  }
+  });
   currentSource = null;
 }
 

@@ -20,11 +20,15 @@ export function playSound(id: string): void {
   if (!useGameStore.getState().settings.sound) return;
   const source = registry[id];
   if (!source) return;
-  let player = players.get(id);
-  if (!player) {
-    player = createAudioPlayer(source);
-    players.set(id, player);
+  try {
+    let player = players.get(id);
+    if (!player) {
+      player = createAudioPlayer(source);
+      players.set(id, player);
+    }
+    player.seekTo(0).catch(() => undefined);
+    player.play();
+  } catch (e) {
+    console.warn("[sound] playback unavailable", e);
   }
-  player.seekTo(0).catch(() => undefined);
-  player.play();
 }

@@ -1,11 +1,15 @@
+import { useEffect } from "react";
 import { Alert, StyleSheet, View, useWindowDimensions } from "react-native";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { useGameStore } from "@/src/game/store";
 import { loadGame, saveGame } from "@/src/game/save";
 import { useMusic } from "@/src/game/audio/music";
 import { menuArt, song } from "@/src/game/assets";
 import MenuButtonZone from "@/src/game/ui/MenuButtonZone";
+import AnimatedBackdrop from "@/src/game/ui/AnimatedBackdrop";
+import Atmosphere from "@/src/game/ui/Atmosphere";
 
 const ART_ASPECT = 1920 / 1080;
 
@@ -14,8 +18,15 @@ export default function Title() {
   const newGame = useGameStore((s) => s.newGame);
   const loadState = useGameStore((s) => s.loadState);
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+  const contentOpacity = useSharedValue(0);
 
   useMusic(song, 0.45);
+
+  useEffect(() => {
+    contentOpacity.value = withTiming(1, { duration: 900, easing: Easing.out(Easing.quad) });
+  }, [contentOpacity]);
+
+  const contentStyle = useAnimatedStyle(() => ({ opacity: contentOpacity.value }));
 
   const onNewGame = async () => {
     newGame();
@@ -46,21 +57,17 @@ export default function Title() {
 
   return (
     <View style={styles.root}>
-      <Image
-        source={menuArt}
-        style={StyleSheet.absoluteFillObject}
-        contentFit="cover"
-        blurRadius={60}
-      />
+      <AnimatedBackdrop source={menuArt} />
       <View style={styles.scrim} />
 
-      <View style={[styles.artBox, { width: boxWidth, height: boxHeight }]}>
+      <Animated.View style={[styles.artBox, { width: boxWidth, height: boxHeight }, contentStyle]}>
         <Image source={menuArt} style={StyleSheet.absoluteFillObject} contentFit="contain" />
+        <Atmosphere />
 
         <MenuButtonZone top="49%" onPress={onNewGame} />
         <MenuButtonZone top="62%" onPress={onContinue} />
         <MenuButtonZone top="75.5%" onPress={onSettings} />
-      </View>
+      </Animated.View>
     </View>
   );
 }

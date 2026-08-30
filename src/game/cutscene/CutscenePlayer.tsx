@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Animated, Easing, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Animated, Easing, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image } from "expo-image";
 import { useGameStore } from "../store";
 import { saveGame } from "../save";
 import { playSound } from "../audio/sound";
@@ -202,7 +203,7 @@ export default function CutscenePlayer({
         <Animated.View style={[StyleSheet.absoluteFillObject, { transform: [{ scale }] }]}>
           {panelArt ? (
             panelArt.image ? (
-              <Image source={panelArt.image} style={styles.panelImage} resizeMode="contain" />
+              <Image source={panelArt.image} style={styles.panelImage} contentFit="contain" />
             ) : (
               <PlaceholderArt id={panelArt.art} />
             )

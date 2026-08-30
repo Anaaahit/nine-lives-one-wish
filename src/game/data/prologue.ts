@@ -1,4 +1,5 @@
 import type { Cutscene } from "../cutscene/types";
+import { entrywayArt } from "../assets";
 
 export const prologue: Cutscene = [
   { type: "fade", to: "black", duration: 400 },
@@ -6,7 +7,7 @@ export const prologue: Cutscene = [
   { type: "text", speaker: "Narrator", lines: ["1:37 in the morning.", "The city has been asleep for hours."] },
   { type: "text", speaker: "Narrator", lines: ["He has not.", "A long day. A longer walk home. And now — the stairs."] },
   { type: "fade", to: "black", duration: 700 },
-  { type: "panel", art: "apartment_entrance", zoom: "in", hold: 3200 },
+  { type: "panel", art: "apartment_entrance", image: entrywayArt, zoom: "in", hold: 3200 },
   { type: "text", speaker: "Narrator", lines: ["He nearly falls through the door.", "The world sways. His head weighs a thousand pounds."] },
   { type: "panel", art: "cat_waiting", hold: 2600 },
   { type: "text", speaker: "Narrator", lines: ["But then he sees it."] },

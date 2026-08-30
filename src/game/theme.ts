@@ -1,29 +1,32 @@
+// Palette sampled directly from assets/game/ninelivesonewish.png so every
+// screen reads as part of the same painted night sky as the title art.
 export const colors = {
-  bg: "#05060f",
-  bgMid: "#0a1430",
-  bgDeep: "#14203c",
-  text: "#eef1fa",
-  textDim: "rgba(238, 241, 250, 0.5)",
-  textFaint: "rgba(238, 241, 250, 0.35)",
-  surface: "#2a3348",
-  surfaceGhost: "rgba(42, 51, 72, 0.4)",
-  surfaceCard: "rgba(42, 51, 72, 0.5)",
-  divider: "rgba(238, 241, 250, 0.08)",
+  bg: "#1c1b34",
+  bgMid: "#2d2c52",
+  bgDeep: "#37355d",
+  text: "#f5f0e6",
+  textDim: "rgba(245, 240, 230, 0.55)",
+  textFaint: "rgba(245, 240, 230, 0.35)",
+  surface: "#28254a",
+  surfaceGhost: "rgba(40, 37, 74, 0.4)",
+  surfaceCard: "rgba(40, 37, 74, 0.55)",
+  border: "rgba(217, 183, 121, 0.5)",
+  divider: "rgba(245, 240, 230, 0.08)",
   success: "#7fd4a2",
   danger: "#e07a7a",
-  amber: "rgba(255, 217, 160, 0.8)",
+  amber: "#d9b779",
 } as const;
 
 export const gradients = {
-  background: [colors.bg, colors.bgMid, colors.bgDeep] as const,
-  titleOverlay: ["rgba(5, 6, 15, 0.2)", "rgba(5, 6, 15, 0.85)"] as const,
+  background: [colors.bgDeep, colors.bgMid, colors.bg] as const,
+  titleOverlay: ["rgba(28, 27, 52, 0.15)", "rgba(28, 27, 52, 0.85)"] as const,
 };
 
 export const typography = {
   kicker: {
-    color: colors.textDim,
+    color: colors.amber,
     fontSize: 14,
-    fontStyle: "italic" as const,
+    letterSpacing: 3,
     lineHeight: 22,
   },
   title: {
@@ -53,4 +56,5 @@ export const spacing = {
 export const radius = {
   sm: 12,
   md: 16,
+  pill: 9999,
 };

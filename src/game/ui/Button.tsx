@@ -23,17 +23,21 @@ export default function Button({ label, onPress, variant = "solid", dim = false,
 const styles = StyleSheet.create({
   button: {
     paddingVertical: spacing.md,
-    borderRadius: radius.sm,
+    borderRadius: radius.pill,
     backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
     alignItems: "center",
     marginBottom: spacing.sm,
   },
   ghost: {
     backgroundColor: colors.surfaceGhost,
+    borderColor: "transparent",
   },
   text: {
     color: colors.text,
     fontSize: 17,
+    fontStyle: "italic",
     letterSpacing: 0.5,
   },
   textDim: {

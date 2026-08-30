@@ -88,13 +88,21 @@ function Glow() {
   );
 }
 
+export function Sparkles() {
+  return (
+    <View style={StyleSheet.absoluteFillObject} pointerEvents="none">
+      {DOTS.map((dot, i) => (
+        <Sparkle key={i} dot={dot} />
+      ))}
+    </View>
+  );
+}
+
 export default function Atmosphere() {
   return (
     <View style={StyleSheet.absoluteFillObject} pointerEvents="none">
       <Glow />
-      {DOTS.map((dot, i) => (
-        <Sparkle key={i} dot={dot} />
-      ))}
+      <Sparkles />
     </View>
   );
 }

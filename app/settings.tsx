@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 import { useGameStore } from "@/src/game/store";
 import { clearSave, loadGame } from "@/src/game/save";
 import { colors, gradients, radius, typography } from "@/src/game/theme";
+import { Sparkles } from "@/src/game/ui/Atmosphere";
 
 export default function Settings() {
   const router = useRouter();

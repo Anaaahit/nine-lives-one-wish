@@ -5,6 +5,7 @@ import { useMusic } from "@/src/game/audio/music";
 import { song } from "@/src/game/assets";
 import { colors, gradients } from "@/src/game/theme";
 import Button from "@/src/game/ui/Button";
+import { Sparkles } from "@/src/game/ui/Atmosphere";
 
 export default function Act1() {
   const router = useRouter();
@@ -12,17 +13,16 @@ export default function Act1() {
 
   return (
     <LinearGradient colors={gradients.background} style={styles.root}>
+      <Sparkles />
+
       <View style={styles.body}>
         <Text style={styles.kicker}>ACT ONE</Text>
         <Text style={styles.title}>The Apartment</Text>
         <Text style={styles.hook}>
-          The door is still moving. Somewhere out there, in a world he has never
-          seen from this height, his body is running.
+          The door&rsquo;s still open. Somewhere out there, in his body, is a
+          very confused cat.
         </Text>
-        <Text style={styles.note}>
-          Gameplay — moving, tapping, and the first key-and-door puzzle — arrives
-          in the next milestone.
-        </Text>
+        <Text style={styles.note}>Next up: walking, a door, and whatever&rsquo;s behind it.</Text>
       </View>
       <View style={styles.buttons}>
         <Button label="Replay prologue" onPress={() => router.replace("/game/prologue")} />
@@ -54,10 +54,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   hook: {
-    color: "rgba(238, 241, 250, 0.85)",
+    color: colors.textDim,
     fontSize: 17,
     lineHeight: 26,
-    fontStyle: "italic",
   },
   note: {
     color: colors.textFaint,

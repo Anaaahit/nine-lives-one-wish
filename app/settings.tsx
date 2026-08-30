@@ -24,32 +24,37 @@ export default function Settings() {
 
   return (
     <LinearGradient colors={gradients.background} style={styles.root}>
+      <Sparkles />
+
       <View style={styles.header}>
         <Pressable onPress={() => router.back()}>
           <Text style={styles.back}>‹ back</Text>
         </Pressable>
         <Text style={styles.heading}>Settings</Text>
+        <View style={styles.headingRule} />
       </View>
 
-      <View style={styles.card}>
-        <View style={styles.row}>
-          <Text style={styles.rowLabel}>Sound</Text>
-          <Pressable onPress={toggleSound}>
-            <Text style={[styles.rowValue, sound ? styles.on : styles.off]}>
-              {sound ? "on" : "off"}
-            </Text>
-          </Pressable>
-        </View>
-        <View style={styles.divider} />
-        <View style={styles.row}>
-          <Text style={styles.rowLabel}>Saved game</Text>
-          {hasSave ? (
-            <Pressable onPress={onClearSave}>
-              <Text style={[styles.rowValue, styles.danger]}>delete</Text>
+      <View style={styles.body}>
+        <View style={styles.card}>
+          <View style={styles.row}>
+            <Text style={styles.rowLabel}>Sound</Text>
+            <Pressable onPress={toggleSound}>
+              <Text style={[styles.rowValue, sound ? styles.on : styles.off]}>
+                {sound ? "on" : "off"}
+              </Text>
             </Pressable>
-          ) : (
-            <Text style={[styles.rowValue, styles.off]}>none</Text>
-          )}
+          </View>
+          <View style={styles.divider} />
+          <View style={styles.row}>
+            <Text style={styles.rowLabel}>Saved game</Text>
+            {hasSave ? (
+              <Pressable onPress={onClearSave}>
+                <Text style={[styles.rowValue, styles.danger]}>delete</Text>
+              </Pressable>
+            ) : (
+              <Text style={[styles.rowValue, styles.off]}>none</Text>
+            )}
+          </View>
         </View>
       </View>
     </LinearGradient>
@@ -72,11 +77,25 @@ const styles = StyleSheet.create({
   },
   heading: {
     ...typography.heading,
+    marginBottom: 10,
+  },
+  headingRule: {
+    width: 40,
+    height: 2,
+    borderRadius: 1,
+    backgroundColor: colors.amber,
+  },
+  body: {
+    flex: 1,
+    justifyContent: "center",
+    paddingBottom: 60,
   },
   card: {
     marginHorizontal: 24,
     borderRadius: radius.md,
     backgroundColor: colors.surfaceCard,
+    borderWidth: 1,
+    borderColor: colors.border,
     overflow: "hidden",
   },
   row: {

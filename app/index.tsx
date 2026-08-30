@@ -1,24 +1,21 @@
-import { useEffect, useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { Alert, StyleSheet, View, useWindowDimensions } from "react-native";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useGameStore } from "@/src/game/store";
 import { loadGame, saveGame } from "@/src/game/save";
 import { useMusic } from "@/src/game/audio/music";
-import { song } from "@/src/game/assets";
-import PlaceholderArt from "@/src/game/cutscene/art/PlaceholderArt";
+import { menuArt, song } from "@/src/game/assets";
+import MenuButtonZone from "@/src/game/ui/MenuButtonZone";
+
+const ART_ASPECT = 1920 / 1080;
 
 export default function Title() {
   const router = useRouter();
   const newGame = useGameStore((s) => s.newGame);
   const loadState = useGameStore((s) => s.loadState);
-  const [hasSave, setHasSave] = useState(false);
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
 
   useMusic(song, 0.45);
-
-  useEffect(() => {
-    loadGame().then((data) => setHasSave(Boolean(data?.game)));
-  }, []);
 
   const onNewGame = async () => {
     newGame();
@@ -29,7 +26,10 @@ export default function Title() {
 
   const onContinue = async () => {
     const data = await loadGame();
-    if (!data) return;
+    if (!data) {
+      Alert.alert("No saved game", "Start a new game first.");
+      return;
+    }
     loadState(data.game);
     if (data.game.prologueDone) {
       router.replace("/game/act1");
@@ -38,40 +38,28 @@ export default function Title() {
     }
   };
 
+  const onSettings = () => router.push("/settings");
+
+  const windowAspect = windowWidth / windowHeight;
+  const boxWidth = windowAspect > ART_ASPECT ? windowHeight * ART_ASPECT : windowWidth;
+  const boxHeight = windowAspect > ART_ASPECT ? windowHeight : windowWidth / ART_ASPECT;
+
   return (
     <View style={styles.root}>
-      <PlaceholderArt id="city_night" />
-      <LinearGradient
-        colors={["rgba(5, 6, 15, 0.2)", "rgba(5, 6, 15, 0.85)"]}
+      <Image
+        source={menuArt}
         style={StyleSheet.absoluteFillObject}
+        contentFit="cover"
+        blurRadius={60}
       />
+      <View style={styles.scrim} />
 
-      <View style={styles.body}>
-        <Text style={styles.kicker}>a small story about a tired man, a cat, and a wish made in anger</Text>
-        <Text style={styles.title}>Nine Lives,{`\n`}One Wish</Text>
-      </View>
+      <View style={[styles.artBox, { width: boxWidth, height: boxHeight }]}>
+        <Image source={menuArt} style={StyleSheet.absoluteFillObject} contentFit="contain" />
 
-      <View style={styles.buttons}>
-        <Pressable style={styles.button} onPress={onNewGame}>
-          <Text style={styles.buttonText}>New game</Text>
-        </Pressable>
-        <Pressable style={[styles.button, styles.ghost]} onPress={onContinue}>
-          <Text style={[styles.buttonText, hasSave ? styles.buttonTextActive : styles.buttonTextDim]}>
-            Continue
-          </Text>
-        </Pressable>
-        <Pressable
-          style={styles.link}
-          onPress={() => {
-            if (!hasSave) {
-              Alert.alert("No saved game", "Start a new game first.");
-              return;
-            }
-            router.push("/settings");
-          }}
-        >
-          <Text style={styles.linkText}>Settings</Text>
-        </Pressable>
+        <MenuButtonZone top="49%" onPress={onNewGame} />
+        <MenuButtonZone top="62%" onPress={onContinue} />
+        <MenuButtonZone top="75.5%" onPress={onSettings} />
       </View>
     </View>
   );
@@ -80,58 +68,15 @@ export default function Title() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: "#05060f",
-  },
-  body: {
-    flex: 1,
+    backgroundColor: "#000",
+    alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 28,
   },
-  kicker: {
-    color: "rgba(238, 241, 250, 0.6)",
-    fontSize: 14,
-    fontStyle: "italic",
-    lineHeight: 22,
-    maxWidth: 260,
-    marginBottom: 18,
+  scrim: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0, 0, 0, 0.35)",
   },
-  title: {
-    color: "#eef1fa",
-    fontSize: 44,
-    fontWeight: "700",
-    letterSpacing: 1,
-  },
-  buttons: {
-    paddingHorizontal: 28,
-    paddingBottom: 48,
-  },
-  button: {
-    paddingVertical: 16,
-    borderRadius: 12,
-    backgroundColor: "#2a3348",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  ghost: {
-    backgroundColor: "rgba(42, 51, 72, 0.4)",
-  },
-  buttonText: {
-    color: "#eef1fa",
-    fontSize: 17,
-    letterSpacing: 0.5,
-  },
-  buttonTextActive: {
-    color: "#eef1fa",
-  },
-  buttonTextDim: {
-    color: "rgba(238, 241, 250, 0.35)",
-  },
-  link: {
-    alignItems: "center",
-    paddingVertical: 12,
-  },
-  linkText: {
-    color: "rgba(238, 241, 250, 0.5)",
-    fontSize: 15,
+  artBox: {
+    position: "relative",
   },
 });

@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useGameStore } from "@/src/game/store";
 import { clearSave, loadGame } from "@/src/game/save";
+import { colors, gradients, radius, typography } from "@/src/game/theme";
 
 export default function Settings() {
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function Settings() {
   };
 
   return (
-    <LinearGradient colors={["#05060f", "#0a1430", "#14203c"]} style={styles.root}>
+    <LinearGradient colors={gradients.background} style={styles.root}>
       <View style={styles.header}>
         <Pressable onPress={() => router.back()}>
           <Text style={styles.back}>‹ back</Text>
@@ -64,19 +65,17 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
   },
   back: {
-    color: "rgba(238, 241, 250, 0.6)",
+    color: colors.textDim,
     fontSize: 16,
     marginBottom: 18,
   },
   heading: {
-    color: "#eef1fa",
-    fontSize: 28,
-    fontWeight: "700",
+    ...typography.heading,
   },
   card: {
     marginHorizontal: 24,
-    borderRadius: 16,
-    backgroundColor: "rgba(42, 51, 72, 0.5)",
+    borderRadius: radius.md,
+    backgroundColor: colors.surfaceCard,
     overflow: "hidden",
   },
   row: {
@@ -89,11 +88,10 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     marginLeft: 20,
-    backgroundColor: "rgba(238, 241, 250, 0.08)",
+    backgroundColor: colors.divider,
   },
   rowLabel: {
-    color: "#eef1fa",
-    fontSize: 17,
+    ...typography.body,
   },
   rowValue: {
     fontSize: 15,
@@ -101,12 +99,12 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   on: {
-    color: "#7fd4a2",
+    color: colors.success,
   },
   off: {
-    color: "rgba(238, 241, 250, 0.4)",
+    color: colors.textFaint,
   },
   danger: {
-    color: "#e07a7a",
+    color: colors.danger,
   },
 });

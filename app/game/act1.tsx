@@ -1,15 +1,17 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useMusic } from "@/src/game/audio/music";
 import { song } from "@/src/game/assets";
+import { colors, gradients } from "@/src/game/theme";
+import Button from "@/src/game/ui/Button";
 
 export default function Act1() {
   const router = useRouter();
   useMusic(song, 0.45);
 
   return (
-    <LinearGradient colors={["#05060f", "#0a1430", "#14203c"]} style={styles.root}>
+    <LinearGradient colors={gradients.background} style={styles.root}>
       <View style={styles.body}>
         <Text style={styles.kicker}>ACT ONE</Text>
         <Text style={styles.title}>The Apartment</Text>
@@ -23,12 +25,8 @@ export default function Act1() {
         </Text>
       </View>
       <View style={styles.buttons}>
-        <Pressable style={styles.button} onPress={() => router.replace("/game/prologue")}>
-          <Text style={styles.buttonText}>Replay prologue</Text>
-        </Pressable>
-        <Pressable style={[styles.button, styles.ghost]} onPress={() => router.replace("/")}>
-          <Text style={styles.buttonText}>Back to title</Text>
-        </Pressable>
+        <Button label="Replay prologue" onPress={() => router.replace("/game/prologue")} />
+        <Button label="Back to title" variant="ghost" onPress={() => router.replace("/")} />
       </View>
     </LinearGradient>
   );
@@ -44,13 +42,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
   },
   kicker: {
-    color: "rgba(255, 217, 160, 0.8)",
+    color: colors.amber,
     fontSize: 14,
     letterSpacing: 4,
     marginBottom: 12,
   },
   title: {
-    color: "#eef1fa",
+    color: colors.text,
     fontSize: 34,
     fontWeight: "700",
     marginBottom: 20,
@@ -62,7 +60,7 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   note: {
-    color: "rgba(238, 241, 250, 0.45)",
+    color: colors.textFaint,
     fontSize: 14,
     lineHeight: 21,
     marginTop: 24,
@@ -70,20 +68,5 @@ const styles = StyleSheet.create({
   buttons: {
     paddingHorizontal: 28,
     paddingBottom: 48,
-  },
-  button: {
-    paddingVertical: 16,
-    borderRadius: 12,
-    backgroundColor: "#2a3348",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  ghost: {
-    backgroundColor: "rgba(42, 51, 72, 0.4)",
-  },
-  buttonText: {
-    color: "#eef1fa",
-    fontSize: 17,
-    letterSpacing: 0.5,
   },
 });

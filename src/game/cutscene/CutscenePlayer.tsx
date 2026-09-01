@@ -9,7 +9,8 @@ import PlaceholderArt from "./art/PlaceholderArt";
 import type { Cutscene, PanelArtId } from "./types";
 
 const FADE_MS = 900;
-const SHIMMER_COLORS = ["#ff2d2d", "#ffa400", "#46ff8c", "#3cc9ff", "#b45cff", "#ff5cd4", "#ffffff"];
+const SHIMMER_COLORS = ["#ffd9a0", "#ffb3a0", "#e0b8ff", "#b8e8ff", "#fff3d6"];
+const SHIMMER_PEAK_OPACITY = 0.5;
 
 function findLastPanel(script: Cutscene, upto: number): PanelArt | null {
   for (let i = upto; i >= 0; i--) {
@@ -47,6 +48,7 @@ export default function CutscenePlayer({
   const overlayOpacity = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(1)).current;
   const shimmerOpacity = useRef(new Animated.Value(0)).current;
+  const shimmerBlend = useRef(new Animated.Value(0)).current;
 
   const overlayColorRef = useRef<"black" | "white" | "transparent">("transparent");
   const timeouts = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -101,6 +103,8 @@ export default function CutscenePlayer({
     setShimmerActive(false);
     shimmerOpacity.stopAnimation();
     shimmerOpacity.setValue(0);
+    shimmerBlend.stopAnimation();
+    shimmerBlend.setValue(0);
 
     switch (b.type) {
       case "panel": {
@@ -155,19 +159,31 @@ export default function CutscenePlayer({
       case "shimmer": {
         const dur = b.duration ?? 2600;
         const step = dur / SHIMMER_COLORS.length;
+        let i = 0;
         setShimmerColorIndex(0);
         setShimmerActive(true);
-        shimmerOpacity.setValue(1);
-        Animated.loop(
-          Animated.sequence([
-            Animated.timing(shimmerOpacity, { toValue: 0.45, duration: 700, useNativeDriver: true }),
-            Animated.timing(shimmerOpacity, { toValue: 0.9, duration: 700, useNativeDriver: true }),
-          ]),
-        ).start();
-        const colorInterval = setInterval(
-          () => setShimmerColorIndex((c) => (c + 1) % SHIMMER_COLORS.length),
-          step,
-        );
+        Animated.timing(shimmerOpacity, {
+          toValue: SHIMMER_PEAK_OPACITY,
+          duration: 500,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }).start();
+
+        const crossfade = () => {
+          shimmerBlend.setValue(0);
+          Animated.timing(shimmerBlend, {
+            toValue: 1,
+            duration: step,
+            easing: Easing.inOut(Easing.sin),
+            useNativeDriver: true,
+          }).start(({ finished: done }) => {
+            if (!done) return;
+            i = (i + 1) % SHIMMER_COLORS.length;
+            setShimmerColorIndex(i);
+          });
+        };
+        crossfade();
+        const colorInterval = setInterval(crossfade, step);
         timeouts.current.push(colorInterval as unknown as ReturnType<typeof setTimeout>);
         later(() => {
           clearInterval(colorInterval);
@@ -191,11 +207,13 @@ export default function CutscenePlayer({
     overlayOpacity,
     scale,
     shimmerOpacity,
+    shimmerBlend,
   ]);
 
   const beat = script[index];
   const progress = Math.round(((index + 1) / script.length) * 100);
   const shimmerColor = SHIMMER_COLORS[shimmerColorIndex] ?? "#ffffff";
+  const shimmerNextColor = SHIMMER_COLORS[(shimmerColorIndex + 1) % SHIMMER_COLORS.length] ?? "#ffffff";
 
   return (
     <View style={styles.root}>
@@ -212,10 +230,19 @@ export default function CutscenePlayer({
       </View>
 
       {shimmerActive ? (
-        <Animated.View
-          pointerEvents="none"
-          style={[StyleSheet.absoluteFillObject, { backgroundColor: shimmerColor, opacity: shimmerOpacity }]}
-        />
+        <>
+          <Animated.View
+            pointerEvents="none"
+            style={[StyleSheet.absoluteFillObject, { backgroundColor: shimmerColor, opacity: shimmerOpacity }]}
+          />
+          <Animated.View
+            pointerEvents="none"
+            style={[
+              StyleSheet.absoluteFillObject,
+              { backgroundColor: shimmerNextColor, opacity: Animated.multiply(shimmerOpacity, shimmerBlend) },
+            ]}
+          />
+        </>
       ) : null}
       <Animated.View
         pointerEvents="none"

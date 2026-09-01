@@ -1,15 +1,50 @@
 import type { ComponentType } from "react";
 import { StyleSheet, View, type DimensionValue } from "react-native";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
+import { catArt, manArt } from "../../assets";
 import type { PanelArtId } from "../types";
+
+const CAT_ART_RATIO = 632 / 1018;
+const MAN_ART_RATIO = 676 / 1632;
+
+function RealCat({ size = 60, top, left }: { size?: number; top: DimensionValue; left: DimensionValue }) {
+  const height = size * 2.2;
+  return (
+    <Image
+      source={catArt}
+      contentFit="contain"
+      style={{ position: "absolute", top, left, height, width: height * CAT_ART_RATIO }}
+    />
+  );
+}
+
+function RealMan({
+  height = 150,
+  top,
+  bottom,
+  left,
+  opacity = 1,
+}: {
+  height?: number;
+  top?: DimensionValue;
+  bottom?: DimensionValue;
+  left: DimensionValue;
+  opacity?: number;
+}) {
+  return (
+    <Image
+      source={manArt}
+      contentFit="contain"
+      style={{ position: "absolute", top, bottom, left, height, width: height * MAN_ART_RATIO, opacity }}
+    />
+  );
+}
 
 const CAT_FUR = "#e2e4e7";
 const CAT_TAN = "#c98a4b";
-const MAN_COAT = "#c9cdd2";
-const MAN_PANTS = "#34373c";
 const MAN_SKIN = "#c9a884";
 const MAN_HAIR = "#2b2d31";
-const SHADOW = "#14161a";
 
 function Moon({
   size = 40,
@@ -89,201 +124,6 @@ function Building({
           }}
         />
       ))}
-    </View>
-  );
-}
-
-function Cat({ size = 54, top, left }: { size?: number; top: DimensionValue; left: DimensionValue }) {
-  return (
-    <View style={{ position: "absolute", top, left, width: size * 1.7, height: size }}>
-      <View
-        style={{
-          position: "absolute",
-          bottom: size * 0.34,
-          left: size * 0.16,
-          width: size * 0.16,
-          height: size * 0.6,
-          borderRadius: size * 0.08,
-          backgroundColor: CAT_FUR,
-        }}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: size * 0.12,
-          left: size * 0.1,
-          width: size * 0.22,
-          height: size * 0.22,
-          borderRadius: size * 0.11,
-          backgroundColor: CAT_TAN,
-        }}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          width: size * 1.2,
-          height: size * 0.55,
-          borderRadius: size * 0.3,
-          backgroundColor: CAT_FUR,
-        }}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: size * 0.18,
-          left: size * 0.42,
-          width: size * 0.5,
-          height: size * 0.3,
-          borderTopLeftRadius: size * 0.22,
-          borderTopRightRadius: size * 0.1,
-          backgroundColor: CAT_TAN,
-        }}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: size * 0.3,
-          left: size * 1.05,
-          width: size * 0.42,
-          height: size * 0.38,
-          borderRadius: size * 0.2,
-          backgroundColor: CAT_FUR,
-        }}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: size * 0.62,
-          left: size * 1.02,
-          width: 0,
-          height: 0,
-          borderLeftWidth: size * 0.1,
-          borderRightWidth: size * 0.1,
-          borderLeftColor: "transparent",
-          borderRightColor: "transparent",
-          borderBottomWidth: size * 0.16,
-          borderBottomColor: CAT_TAN,
-        }}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: size * 0.62,
-          left: size * 1.22,
-          width: 0,
-          height: 0,
-          borderLeftWidth: size * 0.1,
-          borderRightWidth: size * 0.1,
-          borderLeftColor: "transparent",
-          borderRightColor: "transparent",
-          borderBottomWidth: size * 0.16,
-          borderBottomColor: CAT_TAN,
-        }}
-      />
-    </View>
-  );
-}
-
-function Man({
-  height = 130,
-  bottom,
-  left,
-  shadow = false,
-  opacity = 1,
-}: {
-  height?: number;
-  bottom: DimensionValue;
-  left: DimensionValue;
-  shadow?: boolean;
-  opacity?: number;
-}) {
-  const s = height;
-  const coat = shadow ? SHADOW : MAN_COAT;
-  const pants = shadow ? SHADOW : MAN_PANTS;
-  const skin = shadow ? SHADOW : MAN_SKIN;
-  const hair = shadow ? SHADOW : MAN_HAIR;
-  return (
-    <View style={{ position: "absolute", bottom, left, width: s * 0.52, height: s, opacity }}>
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: s * 0.13,
-          width: s * 0.09,
-          height: s * 0.38,
-          borderRadius: s * 0.045,
-          backgroundColor: pants,
-        }}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: s * 0.28,
-          width: s * 0.09,
-          height: s * 0.38,
-          borderRadius: s * 0.045,
-          backgroundColor: pants,
-        }}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: s * 0.34,
-          left: s * 0.09,
-          width: s * 0.32,
-          height: s * 0.42,
-          borderRadius: s * 0.06,
-          backgroundColor: coat,
-        }}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: s * 0.34,
-          left: 0,
-          width: s * 0.08,
-          height: s * 0.38,
-          borderRadius: s * 0.04,
-          backgroundColor: coat,
-        }}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: s * 0.34,
-          left: s * 0.42,
-          width: s * 0.08,
-          height: s * 0.38,
-          borderRadius: s * 0.04,
-          backgroundColor: coat,
-        }}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: s * 0.72,
-          left: s * 0.14,
-          width: s * 0.22,
-          height: s * 0.24,
-          borderRadius: s * 0.11,
-          backgroundColor: skin,
-        }}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: s * 0.84,
-          left: s * 0.12,
-          width: s * 0.26,
-          height: s * 0.1,
-          borderTopLeftRadius: s * 0.13,
-          borderTopRightRadius: s * 0.13,
-          backgroundColor: hair,
-        }}
-      />
     </View>
   );
 }
@@ -497,8 +337,8 @@ function CatWaiting() {
       <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "32%", backgroundColor: "#14101f" }} />
       <Window top={40} left={30} width={150} height={128} />
       <Glow size={180} top="38%" left="52%" />
-      <Cat size={54} top="52%" left="42%" />
-      <Man height={150} bottom={2} left={8} shadow opacity={0.65} />
+      <RealCat size={54} top="46%" left="42%" />
+      <RealMan height={220} bottom={160} left={8} opacity={0.7} />
     </View>
   );
 }
@@ -523,8 +363,8 @@ function Feeding() {
       <View style={{ position: "absolute", bottom: "31%", left: "42%", width: 4, height: 4, borderRadius: 2, backgroundColor: "#8a6a3a" }} />
       <View style={{ position: "absolute", bottom: "32%", left: "48%", width: 4, height: 4, borderRadius: 2, backgroundColor: "#8a6a3a" }} />
       <View style={{ position: "absolute", bottom: "31%", left: "52%", width: 4, height: 4, borderRadius: 2, backgroundColor: "#8a6a3a" }} />
-      <Cat size={40} top="50%" left="26%" />
-      <Man height={120} bottom={0} left={64} opacity={0.55} />
+      <RealCat size={40} top="46%" left="26%" />
+      <RealMan height={180} bottom={160} left={64} opacity={0.7} />
       <Glow size={200} top="12%" left="30%" color="rgba(255, 190, 120, 0.16)" />
     </View>
   );
@@ -636,8 +476,8 @@ function Morning() {
           borderColor: "#e8c89a",
         }}
       />
-      <Man height={170} bottom={18} left="40%" shadow />
-      <Cat size={42} top="72%" left="34%" />
+      <RealMan height={230} bottom={170} left="38%" />
+      <RealCat size={42} top="64%" left="30%" />
       <View
         style={{
           position: "absolute",
@@ -702,8 +542,8 @@ function Sun() {
           backgroundColor: "#fff3c4",
         }}
       />
-      <Cat size={44} top="72%" left="30%" />
-      <Man height={140} bottom={18} left="52%" shadow />
+      <RealCat size={44} top="64%" left="26%" />
+      <RealMan height={190} bottom={170} left="50%" />
     </View>
   );
 }
@@ -784,8 +624,8 @@ function CatFloor() {
       >
         <View style={{ position: "absolute", top: 0, left: 0, width: 6, height: "100%", backgroundColor: "rgba(255, 184, 107, 0.85)" }} />
       </View>
-      <Cat size={46} top="52%" left="40%" />
-      <Man height={150} bottom={0} left="64%" shadow opacity={0.5} />
+      <RealCat size={46} top="46%" left="40%" />
+      <RealMan height={200} bottom={170} left="60%" opacity={0.65} />
       <View
         style={{
           position: "absolute",

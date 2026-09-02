@@ -14,7 +14,6 @@ export default function PuzzleMath() {
   const [equations] = useState<MathEquation[]>(() =>
     Array.from({ length: ROUNDS }, () => generateEquation())
   );
-  console.log("__TEST_MATH_EQUATIONS__", JSON.stringify(equations));
   const [round, setRound] = useState(0);
   const [input, setInput] = useState("");
   const [wrong, setWrong] = useState(false);

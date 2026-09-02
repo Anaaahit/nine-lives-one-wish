@@ -16,7 +16,6 @@ import {
 export default function PuzzleSudoku() {
   const router = useRouter();
   const puzzle = useMemo(() => generatePuzzle(9), []);
-  console.log("__TEST_SUDOKU_SOLUTION__", JSON.stringify(puzzle.solution));
   const [grid, setGrid] = useState<Grid>(() => puzzle.givens.map((row) => [...row]));
   const [selected, setSelected] = useState<[number, number] | null>(null);
   const [solved, setSolved] = useState(false);

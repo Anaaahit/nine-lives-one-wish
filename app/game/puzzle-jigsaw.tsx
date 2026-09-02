@@ -34,7 +34,6 @@ function isSolved(order: number[]): boolean {
 export default function PuzzleJigsaw() {
   const router = useRouter();
   const [order, setOrder] = useState<number[]>(() => shufflePieces());
-  console.log("__TEST_JIGSAW_ORDER__", JSON.stringify(order));
   const [selected, setSelected] = useState<number | null>(null);
   const [solved, setSolved] = useState(false);
 

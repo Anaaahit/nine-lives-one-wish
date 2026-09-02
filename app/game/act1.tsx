@@ -51,7 +51,13 @@ export default function Act1() {
   const router = useRouter();
   const flags = useGameStore((s) => s.game.flags);
   const [doorMessage, setDoorMessage] = useState<string | null>(null);
-  const [introVisible, setIntroVisible] = useState(true);
+  const introVisible = !flags.grove_intro_seen;
+
+  const dismissIntro = () => {
+    const store = useGameStore.getState();
+    store.setFlag("grove_intro_seen", true);
+    saveGame({ game: store.game, settings: store.settings });
+  };
 
   useMusic(song, 0.4);
 
@@ -136,7 +142,7 @@ export default function Act1() {
       ) : null}
 
       {introVisible ? (
-        <Pressable testID="grove-intro" style={styles.introWrap} onPress={() => setIntroVisible(false)}>
+        <Pressable testID="grove-intro" style={styles.introWrap} onPress={dismissIntro}>
           <View style={styles.introCard}>
             <Text style={styles.introText}>
               The hallway didn&rsquo;t lead outside. It led here — a grove that shouldn&rsquo;t

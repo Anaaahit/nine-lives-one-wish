@@ -463,41 +463,19 @@ function Bedroom() {
 function Morning() {
   return (
     <View style={StyleSheet.absoluteFillObject}>
-      <LinearGradient colors={["#ffe3b0", "#ffb07a", "#3a4a8f"]} style={StyleSheet.absoluteFillObject} />
+      <LinearGradient colors={["#3a2f4a", "#8a5a5a", "#e0995f"]} style={StyleSheet.absoluteFillObject} />
+      <Window top={30} left={40} width={130} height={110} />
+      <RealCat size={40} top="58%" left="60%" />
+      <RealMan height={220} bottom={135} left="30%" />
       <View
         style={{
           position: "absolute",
-          top: "10%",
-          left: "22%",
-          width: "56%",
-          height: "58%",
-          backgroundColor: "#fff6e6",
-          borderWidth: 10,
-          borderColor: "#e8c89a",
-        }}
-      />
-      <RealMan height={230} bottom={170} left="38%" />
-      <RealCat size={42} top="64%" left="30%" />
-      <View
-        style={{
-          position: "absolute",
-          top: "12%",
-          left: "30%",
-          width: "16%",
-          height: "6%",
-          backgroundColor: "rgba(255,255,255,0.5)",
-          transform: [{ rotate: "-12deg" }],
-        }}
-      />
-      <View
-        style={{
-          position: "absolute",
-          top: "16%",
-          left: "48%",
-          width: "18%",
-          height: "5%",
-          backgroundColor: "rgba(255,255,255,0.4)",
-          transform: [{ rotate: "6deg" }],
+          bottom: "10%",
+          left: "4%",
+          width: "92%",
+          height: "22%",
+          backgroundColor: "#2a2438",
+          borderRadius: 14,
         }}
       />
     </View>
@@ -586,20 +564,42 @@ function Letter() {
             borderLeftColor: "transparent",
             borderRightColor: "transparent",
             borderBottomWidth: 36,
-            borderBottomColor: "#f4ecd9",
+            borderBottomColor: "#d9cbaa",
           }}
         />
+        {[0, 1, 2, 3].map((i) => (
+          <View
+            key={i}
+            style={{
+              position: "absolute",
+              top: `${52 + i * 12}%`,
+              left: "14%",
+              width: `${i === 3 ? 38 : 72 - i * 6}%`,
+              height: 3,
+              borderRadius: 1.5,
+              backgroundColor: "rgba(60, 48, 30, 0.35)",
+            }}
+          />
+        ))}
         <View
           style={{
             position: "absolute",
-            top: 8,
-            left: "47%",
-            width: 12,
-            height: 12,
-            borderRadius: 6,
-            backgroundColor: "#b03030",
+            top: 4,
+            left: "50%",
+            marginLeft: -16,
+            width: 32,
+            height: 32,
+            borderRadius: 16,
+            backgroundColor: "#a02b2b",
+            borderWidth: 2,
+            borderColor: "#7a1f1f",
+            alignItems: "center",
+            justifyContent: "center",
           }}
-        />
+        >
+          <View style={{ width: 16, height: 2, backgroundColor: "#c96b6b" }} />
+          <View style={{ position: "absolute", width: 2, height: 16, backgroundColor: "#c96b6b" }} />
+        </View>
       </View>
     </View>
   );
@@ -608,8 +608,9 @@ function Letter() {
 function CatFloor() {
   return (
     <View style={StyleSheet.absoluteFillObject}>
-      <LinearGradient colors={["#0a0c18", "#12172a"]} style={StyleSheet.absoluteFillObject} />
-      <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "30%", backgroundColor: "#151020" }} />
+      <LinearGradient colors={["#1c2038", "#262c4a"]} style={StyleSheet.absoluteFillObject} />
+      <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "30%", backgroundColor: "#20233c" }} />
+      <Glow size={260} top="6%" left="30%" color="rgba(200, 210, 255, 0.08)" />
       <View
         style={{
           position: "absolute",
@@ -624,8 +625,8 @@ function CatFloor() {
       >
         <View style={{ position: "absolute", top: 0, left: 0, width: 6, height: "100%", backgroundColor: "rgba(255, 184, 107, 0.85)" }} />
       </View>
-      <RealCat size={46} top="46%" left="40%" />
-      <RealMan height={200} bottom={170} left="60%" opacity={0.65} />
+      <RealCat size={46} top="40%" left="40%" />
+      <RealMan height={200} bottom={170} left="60%" />
       <View
         style={{
           position: "absolute",

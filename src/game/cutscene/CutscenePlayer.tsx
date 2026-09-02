@@ -125,9 +125,9 @@ export default function CutscenePlayer({
         scale.stopAnimation();
         if (zoom === "in") {
           scale.setValue(1);
-          Animated.timing(scale, { toValue: 1.18, duration: hold, easing: Easing.inOut(Easing.cubic), useNativeDriver: true }).start();
+          Animated.timing(scale, { toValue: 1.07, duration: hold, easing: Easing.inOut(Easing.cubic), useNativeDriver: true }).start();
         } else if (zoom === "out") {
-          scale.setValue(1.18);
+          scale.setValue(1.07);
           Animated.timing(scale, { toValue: 1, duration: hold, easing: Easing.inOut(Easing.cubic), useNativeDriver: true }).start();
         } else {
           scale.setValue(1);

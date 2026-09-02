@@ -74,6 +74,7 @@ export default function PuzzleMath() {
         {["1", "2", "3", "4", "5", "6", "7", "8", "9", "⌫", "0", "OK"].map((k) => (
           <Pressable
             key={k}
+            testID={`math-key-${k === "⌫" ? "back" : k === "OK" ? "ok" : k}`}
             style={[styles.key, k === "OK" && styles.keyOk]}
             onPress={() => (k === "⌫" ? onBackspace() : k === "OK" ? onSubmit() : onDigit(k))}
           >

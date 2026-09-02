@@ -86,6 +86,7 @@ export default function PuzzleJigsaw() {
               return (
                 <Pressable
                   key={slot}
+                  testID={`jigsaw-slot-${slot}`}
                   onPress={() => onTapSlot(slot)}
                   style={[styles.tile, selected === slot && styles.tileSelected]}
                 >

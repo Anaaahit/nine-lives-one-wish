@@ -58,6 +58,7 @@ export default function PuzzleSudoku() {
               return (
                 <Pressable
                   key={c}
+                  testID={`sudoku-cell-${r}-${c}`}
                   onPress={() => !isGiven && setSelected([r, c])}
                   style={[
                     styles.cell,
@@ -79,7 +80,7 @@ export default function PuzzleSudoku() {
 
       <View style={styles.palette}>
         {[1, 2, 3, 4].map((n) => (
-          <Pressable key={n} style={styles.paletteKey} onPress={() => onPick(n)}>
+          <Pressable key={n} testID={`sudoku-key-${n}`} style={styles.paletteKey} onPress={() => onPick(n)}>
             <Text style={styles.paletteKeyText}>{n}</Text>
           </Pressable>
         ))}

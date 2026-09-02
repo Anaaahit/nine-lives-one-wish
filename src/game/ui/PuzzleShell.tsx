@@ -31,11 +31,16 @@ export default function PuzzleShell({ title, subtitle, onBack, children, solved 
       <View style={styles.content}>{children}</View>
 
       {solved ? (
-        <Animated.View entering={FadeIn.duration(300)} style={styles.solvedOverlay}>
+        <Animated.View testID="puzzle-solved" entering={FadeIn.duration(300)} style={styles.solvedOverlay}>
           <View style={styles.solvedCard}>
             <Text style={styles.solvedTitle}>Solved</Text>
             <Text style={styles.solvedBody}>The trial accepts you.</Text>
-            <Button label="Continue" onPress={onContinue ?? onBack} style={styles.solvedButton} />
+            <Button
+              testID="puzzle-continue"
+              label="Continue"
+              onPress={onContinue ?? onBack}
+              style={styles.solvedButton}
+            />
           </View>
         </Animated.View>
       ) : null}

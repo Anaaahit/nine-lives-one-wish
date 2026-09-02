@@ -7,11 +7,13 @@ type Props = {
   variant?: "solid" | "ghost";
   dim?: boolean;
   style?: StyleProp<ViewStyle>;
+  testID?: string;
 };
 
-export default function Button({ label, onPress, variant = "solid", dim = false, style }: Props) {
+export default function Button({ label, onPress, variant = "solid", dim = false, style, testID }: Props) {
   return (
     <Pressable
+      testID={testID}
       style={[styles.button, variant === "ghost" && styles.ghost, style]}
       onPress={onPress}
     >

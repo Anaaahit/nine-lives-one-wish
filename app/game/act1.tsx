@@ -97,7 +97,7 @@ export default function Act1() {
       <Sparkles />
 
       <View style={styles.progress}>
-        <Text style={styles.progressText}>
+        <Text testID="grove-progress" style={styles.progressText}>
           {solvedCount} / {MARKERS.length} trials
         </Text>
       </View>
@@ -105,6 +105,7 @@ export default function Act1() {
       {MARKERS.map((m) => (
         <GroveMarker
           key={m.key}
+          testID={`grove-marker-${m.key}`}
           top={`${m.top}%`}
           left={`${m.left}%`}
           label={m.label}
@@ -115,6 +116,7 @@ export default function Act1() {
       ))}
 
       <Pressable
+        testID="grove-door"
         onPress={onDoorPress}
         style={[styles.door, { top: `${DOOR.y - 22}%`, left: `${DOOR.x - 5}%` }]}
         hitSlop={10}
@@ -128,13 +130,13 @@ export default function Act1() {
       </Animated.View>
 
       {doorMessage ? (
-        <View style={styles.toast} pointerEvents="none">
+        <View testID="grove-door-toast" style={styles.toast} pointerEvents="none">
           <Text style={styles.toastText}>{doorMessage}</Text>
         </View>
       ) : null}
 
       {introVisible ? (
-        <Pressable style={styles.introWrap} onPress={() => setIntroVisible(false)}>
+        <Pressable testID="grove-intro" style={styles.introWrap} onPress={() => setIntroVisible(false)}>
           <View style={styles.introCard}>
             <Text style={styles.introText}>
               The hallway didn&rsquo;t lead outside. It led here — a grove that shouldn&rsquo;t

@@ -17,9 +17,10 @@ type Props = {
   caption: string;
   solved: boolean;
   onPress: () => void;
+  testID?: string;
 };
 
-export default function GroveMarker({ top, left, label, caption, solved, onPress }: Props) {
+export default function GroveMarker({ top, left, label, caption, solved, onPress, testID }: Props) {
   const pulse = useSharedValue(0);
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export default function GroveMarker({ top, left, label, caption, solved, onPress
   }));
 
   return (
-    <Pressable onPress={onPress} style={[styles.wrap, { top, left }]} hitSlop={10}>
+    <Pressable testID={testID} onPress={onPress} style={[styles.wrap, { top, left }]} hitSlop={10}>
       <Animated.View style={[styles.glow, solved && styles.glowSolved, glowStyle]} />
       <View style={[styles.rune, solved && styles.runeSolved]}>
         <Text style={styles.runeText}>{solved ? "✓" : label}</Text>

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { initAudio } from "@/src/game/audio/sound";
@@ -18,13 +19,14 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar style="light" />
       <Stack screenOptions={{ headerShown: false, animation: "fade" }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="settings" />
         <Stack.Screen name="game" />
+        <Stack.Screen name="bloom" />
       </Stack>
-    </>
+    </GestureHandlerRootView>
   );
 }

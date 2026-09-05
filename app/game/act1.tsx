@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   introWrap: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: "rgba(6, 10, 12, 0.65)",
     alignItems: "center",
     justifyContent: "center",

@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   solvedOverlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: "rgba(10, 9, 20, 0.72)",
     alignItems: "center",
     justifyContent: "center",

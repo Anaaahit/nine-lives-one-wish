@@ -218,7 +218,7 @@ export default function CutscenePlayer({
   return (
     <View style={styles.root}>
       <View style={styles.artFrame}>
-        <Animated.View style={[StyleSheet.absoluteFillObject, { transform: [{ scale }] }]}>
+        <Animated.View style={[StyleSheet.absoluteFill, { transform: [{ scale }] }]}>
           {panelArt ? (
             panelArt.image ? (
               <Image source={panelArt.image} style={styles.panelImage} contentFit="contain" />
@@ -233,12 +233,12 @@ export default function CutscenePlayer({
         <>
           <Animated.View
             pointerEvents="none"
-            style={[StyleSheet.absoluteFillObject, { backgroundColor: shimmerColor, opacity: shimmerOpacity }]}
+            style={[StyleSheet.absoluteFill, { backgroundColor: shimmerColor, opacity: shimmerOpacity }]}
           />
           <Animated.View
             pointerEvents="none"
             style={[
-              StyleSheet.absoluteFillObject,
+              StyleSheet.absoluteFill,
               { backgroundColor: shimmerNextColor, opacity: Animated.multiply(shimmerOpacity, shimmerBlend) },
             ]}
           />
@@ -246,7 +246,7 @@ export default function CutscenePlayer({
       ) : null}
       <Animated.View
         pointerEvents="none"
-        style={[StyleSheet.absoluteFillObject, { backgroundColor: overlayColor === "transparent" ? "#000" : overlayColor, opacity: overlayOpacity }]}
+        style={[StyleSheet.absoluteFill, { backgroundColor: overlayColor === "transparent" ? "#000" : overlayColor, opacity: overlayOpacity }]}
       />
 
       {beat && beat.type === "panel" ? (
@@ -282,11 +282,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
   },
   artFrame: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     overflow: "hidden",
   },
   panelImage: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
   },
   sub: {
     position: "absolute",

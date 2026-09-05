@@ -29,8 +29,8 @@ function Canopy({
 
 export default function GroveBackdrop() {
   return (
-    <View style={StyleSheet.absoluteFillObject}>
-      <LinearGradient colors={["#12203a", "#1c2f3f", "#233326"]} style={StyleSheet.absoluteFillObject} />
+    <View style={StyleSheet.absoluteFill}>
+      <LinearGradient colors={["#12203a", "#1c2f3f", "#233326"]} style={StyleSheet.absoluteFill} />
 
       <View style={styles.moon} />
       <View style={styles.moonGlow} />

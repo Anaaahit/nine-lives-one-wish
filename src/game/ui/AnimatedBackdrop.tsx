@@ -37,7 +37,7 @@ export default function AnimatedBackdrop({ source }: Props) {
   return (
     <AnimatedImage
       source={source}
-      style={[StyleSheet.absoluteFillObject, animatedStyle]}
+      style={[StyleSheet.absoluteFill, animatedStyle]}
       contentFit="cover"
       blurRadius={60}
     />

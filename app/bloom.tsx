@@ -288,10 +288,7 @@ const styles = StyleSheet.create({
     opacity: 0.95,
   },
   dotHighlighted: {
-    shadowColor: "#fff",
-    shadowOpacity: 0.6,
-    shadowRadius: 10,
-    elevation: 6,
+    boxShadow: "0px 0px 10px rgba(255, 255, 255, 0.6)",
   },
   hint: {
     color: colors.textFaint,

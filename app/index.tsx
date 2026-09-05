@@ -61,7 +61,7 @@ export default function Title() {
       <View style={styles.scrim} />
 
       <Animated.View style={[styles.artBox, { width: boxWidth, height: boxHeight }, contentStyle]}>
-        <Image source={menuArt} style={StyleSheet.absoluteFillObject} contentFit="contain" />
+        <Image source={menuArt} style={StyleSheet.absoluteFill} contentFit="contain" />
         <Atmosphere />
 
         <MenuButtonZone top="49%" onPress={onNewGame} />
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   scrim: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: "rgba(0, 0, 0, 0.35)",
   },
   artBox: {

@@ -90,7 +90,7 @@ function Glow() {
 
 export function Sparkles() {
   return (
-    <View style={StyleSheet.absoluteFillObject} pointerEvents="none">
+    <View style={StyleSheet.absoluteFill} pointerEvents="none">
       {DOTS.map((dot, i) => (
         <Sparkle key={i} dot={dot} />
       ))}
@@ -100,7 +100,7 @@ export function Sparkles() {
 
 export default function Atmosphere() {
   return (
-    <View style={StyleSheet.absoluteFillObject} pointerEvents="none">
+    <View style={StyleSheet.absoluteFill} pointerEvents="none">
       <Glow />
       <Sparkles />
     </View>

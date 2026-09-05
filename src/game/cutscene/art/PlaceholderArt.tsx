@@ -218,7 +218,7 @@ function Stars() {
     [82, 24, 2, 0.5],
   ];
   return (
-    <View style={StyleSheet.absoluteFillObject}>
+    <View style={StyleSheet.absoluteFill}>
       {dots.map(([left, top, size, opacity], i) => (
         <View
           key={i}
@@ -240,7 +240,7 @@ function Stars() {
 
 function CityNight() {
   return (
-    <LinearGradient colors={["#05060f", "#0a1430", "#14203c"]} style={StyleSheet.absoluteFillObject}>
+    <LinearGradient colors={["#05060f", "#0a1430", "#14203c"]} style={StyleSheet.absoluteFill}>
       <Stars />
       <Moon top="8%" left="16%" size={40} glow />
       <Building
@@ -296,8 +296,8 @@ function CityNight() {
 
 function ApartmentEntrance() {
   return (
-    <View style={StyleSheet.absoluteFillObject}>
-      <LinearGradient colors={["#04040a", "#0a0914", "#05050c"]} style={StyleSheet.absoluteFillObject} />
+    <View style={StyleSheet.absoluteFill}>
+      <LinearGradient colors={["#04040a", "#0a0914", "#05050c"]} style={StyleSheet.absoluteFill} />
       <View style={{ position: "absolute", bottom: "22%", left: 0, right: 0, height: 2, backgroundColor: "rgba(255,255,255,0.06)" }} />
       <View
         style={{
@@ -332,8 +332,8 @@ function ApartmentEntrance() {
 
 function CatWaiting() {
   return (
-    <View style={StyleSheet.absoluteFillObject}>
-      <LinearGradient colors={["#0a0c16", "#12172a"]} style={StyleSheet.absoluteFillObject} />
+    <View style={StyleSheet.absoluteFill}>
+      <LinearGradient colors={["#0a0c16", "#12172a"]} style={StyleSheet.absoluteFill} />
       <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "32%", backgroundColor: "#14101f" }} />
       <Window top={40} left={30} width={150} height={128} />
       <Glow size={180} top="38%" left="52%" />
@@ -345,8 +345,8 @@ function CatWaiting() {
 
 function Feeding() {
   return (
-    <View style={StyleSheet.absoluteFillObject}>
-      <LinearGradient colors={["#171006", "#221a10"]} style={StyleSheet.absoluteFillObject} />
+    <View style={StyleSheet.absoluteFill}>
+      <LinearGradient colors={["#171006", "#221a10"]} style={StyleSheet.absoluteFill} />
       <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "28%", backgroundColor: "#1a1410" }} />
       <View style={{ position: "absolute", bottom: "28%", left: 0, right: 0, height: "16%", backgroundColor: "#241a12" }} />
       <View
@@ -372,8 +372,8 @@ function Feeding() {
 
 function Bedroom() {
   return (
-    <View style={StyleSheet.absoluteFillObject}>
-      <LinearGradient colors={["#060609", "#0a0a12"]} style={StyleSheet.absoluteFillObject} />
+    <View style={StyleSheet.absoluteFill}>
+      <LinearGradient colors={["#060609", "#0a0a12"]} style={StyleSheet.absoluteFill} />
       <Window top={40} left={300} width={100} height={118} />
       <View
         style={{
@@ -462,8 +462,8 @@ function Bedroom() {
 
 function Morning() {
   return (
-    <View style={StyleSheet.absoluteFillObject}>
-      <LinearGradient colors={["#3a2f4a", "#8a5a5a", "#e0995f"]} style={StyleSheet.absoluteFillObject} />
+    <View style={StyleSheet.absoluteFill}>
+      <LinearGradient colors={["#3a2f4a", "#8a5a5a", "#e0995f"]} style={StyleSheet.absoluteFill} />
       <Window top={30} left={40} width={130} height={110} />
       <RealCat size={40} top="58%" left="60%" />
       <RealMan height={220} bottom={135} left="30%" />
@@ -484,8 +484,8 @@ function Morning() {
 
 function Sun() {
   return (
-    <View style={StyleSheet.absoluteFillObject}>
-      <LinearGradient colors={["#ff9a5c", "#7a2d5e", "#2d1b4e"]} style={StyleSheet.absoluteFillObject} />
+    <View style={StyleSheet.absoluteFill}>
+      <LinearGradient colors={["#ff9a5c", "#7a2d5e", "#2d1b4e"]} style={StyleSheet.absoluteFill} />
       <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "26%", backgroundColor: "#241338" }} />
       <View
         style={{
@@ -528,8 +528,8 @@ function Sun() {
 
 function Letter() {
   return (
-    <View style={StyleSheet.absoluteFillObject}>
-      <LinearGradient colors={["#0a0f1a", "#101a2e"]} style={StyleSheet.absoluteFillObject} />
+    <View style={StyleSheet.absoluteFill}>
+      <LinearGradient colors={["#0a0f1a", "#101a2e"]} style={StyleSheet.absoluteFill} />
       <Glow size={220} top="-8%" left="62%" color="rgba(255, 214, 148, 0.1)" />
       <View style={{ position: "absolute", bottom: "28%", left: 0, right: 0, height: "14%", backgroundColor: "#2a1f16" }} />
       <View
@@ -543,11 +543,7 @@ function Letter() {
           borderWidth: 1,
           borderColor: "#d8cdb4",
           transform: [{ rotate: "-3deg" }],
-          shadowColor: "#000",
-          shadowOpacity: 0.5,
-          shadowRadius: 12,
-          shadowOffset: { width: 0, height: 6 },
-          elevation: 8,
+          boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.5)",
           overflow: "hidden",
         }}
       >
@@ -607,8 +603,8 @@ function Letter() {
 
 function CatFloor() {
   return (
-    <View style={StyleSheet.absoluteFillObject}>
-      <LinearGradient colors={["#1c2038", "#262c4a"]} style={StyleSheet.absoluteFillObject} />
+    <View style={StyleSheet.absoluteFill}>
+      <LinearGradient colors={["#1c2038", "#262c4a"]} style={StyleSheet.absoluteFill} />
       <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "30%", backgroundColor: "#20233c" }} />
       <Glow size={260} top="6%" left="30%" color="rgba(200, 210, 255, 0.08)" />
       <View
@@ -656,8 +652,8 @@ function CatFloor() {
 
 function DoorAjar() {
   return (
-    <View style={StyleSheet.absoluteFillObject}>
-      <LinearGradient colors={["#04060d", "#0a0c16"]} style={StyleSheet.absoluteFillObject} />
+    <View style={StyleSheet.absoluteFill}>
+      <LinearGradient colors={["#04060d", "#0a0c16"]} style={StyleSheet.absoluteFill} />
       <View
         style={{
           position: "absolute",

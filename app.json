@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "my-app",
-    "slug": "my-app",
+    "name": "When You Stop Waiting",
+    "slug": "when-you-stop-waiting",
     "version": "1.0.0",
     "orientation": "landscape",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "whenyoustopwaiting",
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true
